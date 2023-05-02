@@ -27,17 +27,16 @@ public class Main {
         }
         System.out.println(">>> " + day);
         if (day == 1) {
-            return ((startNumbers[3] * startNumbers[1]) % 10) + 1;
+            memory[day - 1] = ((startNumbers[3] * startNumbers[1]) % 10) + 1;
         } else if (day <= 3) {
             int prev = chooseHobbyRecursive(startNumbers, (day - 1), memory); // предыдущее значение
             memory[day - 1] = ((prev * startNumbers[day]) % 10) + 1;
-            return memory[day - 1];
         } else {
             int prev = chooseHobbyRecursive(startNumbers, (day - 1), memory); // предыдущее значение
             int prePrePrev = chooseHobbyRecursive(startNumbers, (day - 3), memory); // пре-пре-предыдущее значение
             memory[day - 1] = ((prev * prePrePrev) % 10) + 1;
-            return memory[day - 1];
         }
+        return memory[day - 1];
     }
 
     public static int chooseHobbyIterative(int[] startNumbers, int day) {
