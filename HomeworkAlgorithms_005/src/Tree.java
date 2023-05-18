@@ -49,10 +49,11 @@ public class Tree {
 
     public boolean isNamePyramid() {
         // ВАШ КОД
-        if (left == null && right == null) {
+        if (left == null) {
             return true;
-        } else if (left == null || right == null) {
-            return false;
+        }
+        if (right == null) {
+            return name.length() <= left.name.length();
         }
         if ((name.length() > left.name.length()) || name.length() > right.name.length()) {
             return false;
