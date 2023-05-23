@@ -41,7 +41,9 @@ public class Graph<T> {
         }
         for (int i = 0; i < v.getAdjacent().size(); i++) {
             if (!visited.contains(v.getAdjacent().get(i))) {
-                return dfsFind(v.getAdjacent().get(i), target, visited);
+                if (dfsFind(v.getAdjacent().get(i), target, visited)) {
+                    return true;
+                }
             }
         }
         return false; // ничего не нашли
