@@ -23,15 +23,26 @@ public class DAG<T> {
         queue.add(from); // начинать будем из города отправления
 
         while (!queue.isEmpty()) { // пока очередь не пуста
-            Vertex<T> v = ...//queue.element(); // вынимаем следующий элемент из очереди
-
+            Vertex<T> v = queue.poll(); //... // вынимаем следующий элемент из очереди
+            added.add(v);
             // если v это город назначения, то возвращаем из paths готовый ответ для этой вершины
+            if (v.equals(to)) {
+                return paths.get(v);
+            }
 
             // перебираем вершины по дугам из v
             // если такую вершину уже добавляли в очередь (воспользуйтесь коллекцией added), то пропускаем её.
             // иначе, добавляем её в очередь, added и paths (подумайте, сколько перелётов будет до этого города, если мы знаем сколько перелётов до v)
-        }
 
+            for (var vertex : v.getAdjacent()) {
+                if (!added.contains(vertex)) {
+                    added.add(vertex);
+                    queue.add(vertex);
+                    paths.put(vertex, paths.get(v) + 1);
+                }
+            }
+
+        }
         return -1;
     }
 
