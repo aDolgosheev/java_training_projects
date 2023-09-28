@@ -1,4 +1,4 @@
-package ru.dolgosheev.multithreading.task_017;
+package ru.dolgosheev.multithreading.lesson_017;
 
 public class Main {
     public static void main(String[] args) {

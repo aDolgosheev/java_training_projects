@@ -1,4 +1,4 @@
-package ru.dolgosheev.multithreading.task_018;
+package ru.dolgosheev.multithreading.lesson_018;
 
 import java.util.Scanner;
 
