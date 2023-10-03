@@ -8,6 +8,10 @@ public class Main {
         main.doWork();
     }
 
+    public synchronized void increment() {
+            counter++;
+    }
+
     public void doWork() throws InterruptedException {
         Thread thread1 = new Thread(new Runnable() {
             @Override
@@ -35,8 +39,5 @@ public class Main {
 
         System.out.println(counter);
     }
-
-    public synchronized void increment() {
-        counter++;
-    }
 }
+
