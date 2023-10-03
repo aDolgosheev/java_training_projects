@@ -1,86 +1,40 @@
 package ru.dolgosheev.multithreading.lesson_021;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        new Worker().main();
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+        for (int i = 0; i < 5; i++) {
+            executorService.submit(new Work(i));
+        }
+
+        executorService.shutdown();
+        System.out.println("All tasks submitted");
+
+        executorService.awaitTermination(1, TimeUnit.DAYS);
     }
 }
 
-class Worker {
-    Random random = new Random();
+class Work implements Runnable {
+    private int id;
 
-    Object lock1 = new Object();
-    Object lock2 = new Object();
-
-    private List<Integer> list1 = new ArrayList<>();
-    private List<Integer> list2 = new ArrayList<>();
-
-    public void addToListOne() {
-        synchronized (lock1) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            list1.add(random.nextInt(100));
-        }
+    public Work(int id) {
+        this.id = id;
     }
 
-    public void addToListTwo() {
-        synchronized (lock2) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            list2.add(random.nextInt(100));
-        }
-    }
-
-    public void work() {
-        for (int i = 0; i < 100; i++) {
-            addToListOne();
-            addToListTwo();
-        }
-    }
-
-    public void main() {
-        long before = System.currentTimeMillis();
-
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                work();
-            }
-        });
-        Thread thread2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                work();
-            }
-        });
-
-        thread1.start();
-        thread2.start();
-
+    @Override
+    public void run() {
         try {
-            thread1.join();
-            thread2.join();
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        long after = System.currentTimeMillis();
-
-        System.out.println("Program took " + (after - before) + "ms to run");
-
-        System.out.println("List 1 : " + list1.size());
-        System.out.println("List 2 : " + list2.size());
+        System.out.println("Work " + id + " was completed.");
     }
 }
-
